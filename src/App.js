@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import FlightsList from "./components/flightslist.component";
+import addflight from './components/add';
+import Navbar from "./components/navbar.component";
+import updateflight from "./components/update.component";
+import deleteflight from"./components/deleteflight";
+
+
+
+
+
+
 
 function App() {
+  
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Navbar />
+
+       
+        <Switch>
+          
+          <Route exact path="/" component = {FlightsList}/> 
+          <Route path="/add" component = {addflight}/> 
+          <Route path="/flightlist" component = {FlightsList}/> 
+          <Route path="/update/:id" component = {updateflight}/>
+          <Route path="/deleteFlights" component={deleteflight}/>
+       
+       
+    
+            
+          
+        </Switch>
+      </div>
+   </Router>
   );
+  
 }
 
 export default App;
