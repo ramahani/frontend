@@ -13,7 +13,7 @@ import addflight from './components/add';
 import Navbar from "./components/navbar.component";
 import updateflight from "./components/update.component";
 import deleteflight from"./components/deleteflight";
-
+import searchflights from "./components/Searchflights.component";
 
 
 
@@ -37,6 +37,8 @@ function App() {
           <Route path="/flightlist" component = {FlightsList}/> 
           <Route path="/update/:id" component = {updateflight}/>
           <Route path="/deleteFlights" component={deleteflight}/>
+          <Route path="/searchflights" component={searchflights}/>
+
        
        
     

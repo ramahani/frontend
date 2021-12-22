@@ -1,9 +1,23 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import {Link, useState, useEffect } from 'react';
 
 import axios from 'axios';
 
-
+const Flight = props => (
+  <tr>
+    <td>{props.flight.Flight_Number}</td>
+    <td>{props.flight.From}</td>
+    <td>{props.flight.To}</td>
+    <td>{props.flight.Departure_Time}</td>
+    <td>{props.flight.Arrival_Time}</td>
+    <td>{props.flight.Flight_Date}</td>
+    <td>{props.flight.Cabin}</td>
+    <td>{props.flight.Seats_Available}</td>
+    <td>
+      <Link to={"/update/"+props.flight._id}>edit</Link> | <a href="#" onClick={() => { props.deleteflight(props.flight._id) }}>delete</a>
+    </td>
+  </tr>
+)
 
 
  function Searchflights(props) {
@@ -41,8 +55,11 @@ import axios from 'axios';
           
           setClicked(false);
       });
+      
+      
 
    {
+   
     
        
            return (
@@ -84,6 +101,12 @@ import axios from 'axios';
                   <th>Seats Available</th>
                 </tr>
               </thead>
+              <tbody>
+              {flightlist.map(currentflight => {
+               <Flight flightlist={currentflight} />;
+            })
+          }
+            </tbody>
             
             </table>
           </div>
@@ -93,6 +116,8 @@ import axios from 'axios';
 
        }
        
+       
    }
+   
 
    export default Searchflights

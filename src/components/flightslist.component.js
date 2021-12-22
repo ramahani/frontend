@@ -27,7 +27,7 @@ export default class FlightsList extends Component{
     }
         
         componentDidMount(){
-            axios.get('http://localhost:5000/flights/').then(response => {
+            axios.get('http://localhost:5000/flightslist').then(response => {
                 this.setState({flights: response.data})
             })
             .catch((error) => 
@@ -38,7 +38,7 @@ export default class FlightsList extends Component{
         deleteflight(id) {
           // let answer = window.confirm ('Are you sure you want to delete this Flight?');
           if( window.confirm ('Are you sure you want to delete this Flight?')){
-            axios.delete('http://localhost:5000/flights/'+id)
+            axios.delete('http://localhost:5000/'+id)
               .then(response => { console.log(response.data)});
         
             this.setState({
