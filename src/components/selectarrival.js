@@ -1,8 +1,8 @@
-/*import React  , { Component } from "react";
+import React  , { Component } from "react";
 import axios from 'axios';
-import {Link , useHistory , useParams } from 'react-router-dom';
-const {idd} = useParams();
-const navigate = useHistory();
+
+import {Link } from 'react-router-dom';
+
 const Flight = props => (
     <tr>
       <td>{props.flight.Flight_Number}</td>
@@ -14,25 +14,22 @@ const Flight = props => (
       <td>{props.flight.Cabin}</td>
       <td>{props.flight.Seats_Available}</td>
       <td>
-<button onClick = {()=> {
-    navigate ("/totalcart/"+ idd + props.flight.id);
-}}> 
-    </button>      </td>
+         <a href="#" onClick={() => { props.selectflight(props.flight._id) }}>select</a>
+      </td>
     </tr>
   )
 
-export default class FlightsList extends Component{
+export default class selectarrival extends Component{
     constructor(props) {
         super(props);
         
 
-        this.deleteflight=this.deleteflight.bind(this);
+        this.selectflight=this.selectflight.bind(this);
         this.state={flights:[] };
     }
         
-    
         componentDidMount(){
-            axios.get('http://localhost:5000/flights/').then(response => {
+            axios.get('http://localhost:5000/flights/flightslist').then(response => {
                 this.setState({flights: response.data})
             })
             .catch((error) => 
@@ -40,40 +37,25 @@ export default class FlightsList extends Component{
                 console.log(error);
             })
         }
-        deleteflight(id) {
+        selectflight(id) {
           // let answer = window.confirm ('Are you sure you want to delete this Flight?');
-          if( window.confirm ('Are you sure you want to delete this Flight?')){
-            axios.delete('http://localhost:5000/flights/'+id)
-              .then(response => { console.log(response.data)});
-        
-            this.setState({
-              flights: this.state.flights.filter(el => el._id !== id)
-            })
+          if( window.confirm ('Are you sure you want to select this Flight?')){
+            localStorage.setItem("flight2id",id)
+            console.log(localStorage.getItem("flight2id"));
+            window.location = '/selectseatone';
 
-          }
-          
-          // filterContent(flights, searchTerm)
-          // {
-          //   const result= flights.filter((flight)=>flight.from.toLowerCase.includes(searchTerm));
-          //   this.setState({flights: result});
-          // }
-          // handleTextSearch=(e)=>{
-          //  const searchTerm = (e.currentflight.value);
-          //  axios.get('http://localhost:5000/flights/').then(response => {
-          //       if(response.data.success)
-          //       {
-          //         this.filterContent(res.data.flights, searchTerm)
-          //       }
-          //   })
-          
-          // }
             
+            
+            
+        
+            
+          }       
           }
         
     
           FlightsList() {
             return this.state.flights.map(currentflight => {
-              return <Flight flight={currentflight} deleteflight={this.deleteflight} key={currentflight._id}/>;
+              return <Flight flight={currentflight} selectflight={this.selectflight} key={currentflight._id}/>;
             })
           }
 render(){
@@ -82,7 +64,7 @@ render(){
          
           <div className="row">
             <div className="col-lg-9 mt-2 mb-2">
-              <h4>All Flights</h4>
+              <h4>Arrival Flights</h4>
               </div>
               
             </div>
@@ -110,4 +92,4 @@ render(){
       )
   
 }
-}*/
+}

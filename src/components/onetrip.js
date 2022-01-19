@@ -1,6 +1,8 @@
 import React  , { Component } from "react";
 import axios from 'axios';
+
 import {Link } from 'react-router-dom';
+
 const Flight = props => (
     <tr>
       <td>{props.flight.Flight_Number}</td>
@@ -12,17 +14,17 @@ const Flight = props => (
       <td>{props.flight.Cabin}</td>
       <td>{props.flight.Seats_Available}</td>
       <td>
-        <Link to={"/updateflight/"+props.flight._id}>edit</Link> | <a href="#" onClick={() => { props.deleteflight(props.flight._id) }}>delete</a>
+         <a href="#" onClick={() => { props.selectflight(props.flight._id) }}>select</a>
       </td>
     </tr>
   )
 
-export default class FlightsList extends Component{
+export default class selectarrival extends Component{
     constructor(props) {
         super(props);
         
 
-        this.deleteflight=this.deleteflight.bind(this);
+        this.selectflight=this.selectflight.bind(this);
         this.state={flights:[] };
     }
         
@@ -35,23 +37,25 @@ export default class FlightsList extends Component{
                 console.log(error);
             })
         }
-        deleteflight(id) {
+        selectflight(id) {
           // let answer = window.confirm ('Are you sure you want to delete this Flight?');
-          if( window.confirm ('Are you sure you want to delete this Flight?')){
-            axios.delete('http://localhost:5000/flights/deleteflight/'+id)
-              .then(response => { console.log(response.data)});
-        
-            this.setState({
-              flights: this.state.flights.filter(el => el._id !== id)
-            })
+          if( window.confirm ('Are you sure you want to select this Flight?')){
+            localStorage.setItem("flightonetripid",id)
+            console.log(localStorage.getItem("flightonetripid"));
+            window.location = '/selectseatthree';
 
+            
+            
+            
+        
+            
           }       
           }
         
     
           FlightsList() {
             return this.state.flights.map(currentflight => {
-              return <Flight flight={currentflight} deleteflight={this.deleteflight} key={currentflight._id}/>;
+              return <Flight flight={currentflight} selectflight={this.selectflight} key={currentflight._id}/>;
             })
           }
 render(){
@@ -60,7 +64,7 @@ render(){
          
           <div className="row">
             <div className="col-lg-9 mt-2 mb-2">
-              <h4>All Flights</h4>
+              <h4>Select Flight</h4>
               </div>
               
             </div>

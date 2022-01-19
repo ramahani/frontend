@@ -1,8 +1,8 @@
-/*import React  , { Component } from "react";
+import React  , { Component } from "react";
 import axios from 'axios';
-import {Link , useHistory , useParams } from 'react-router-dom';
-const {idd} = useParams();
-const navigate = useHistory();
+
+import {Link } from 'react-router-dom';
+
 const Flight = props => (
     <tr>
       <td>{props.flight.Flight_Number}</td>
@@ -14,25 +14,22 @@ const Flight = props => (
       <td>{props.flight.Cabin}</td>
       <td>{props.flight.Seats_Available}</td>
       <td>
-      <button onClick = {()=> {
-    navigate ("/arrival/"+ props.flight.id);
-}}> 
-    </button>     
+         <a href="#" onClick={() => { props.selectflight(props.flight._id) }}>select</a>
       </td>
     </tr>
   )
 
-export default class FlightsList extends Component{
+export default class createBooking extends Component{
     constructor(props) {
         super(props);
         
 
-       
+        this.selectflight=this.selectflight.bind(this);
         this.state={flights:[] };
     }
         
         componentDidMount(){
-            axios.get('http://localhost:5000/flights/').then(response => {
+            axios.get('http://localhost:5000/flights/flightslist').then(response => {
                 this.setState({flights: response.data})
             })
             .catch((error) => 
@@ -40,10 +37,20 @@ export default class FlightsList extends Component{
                 console.log(error);
             })
         }
-       
-         selectflight(){
-             window.location='/arrival' + idd;
-         }
+        selectflight(id) {
+          // let answer = window.confirm ('Are you sure you want to delete this Flight?');
+          if( window.confirm ('Are you sure you want to select this Flight?')){
+            localStorage.setItem("flight1id",id)
+            console.log(localStorage.getItem("flight1id"));
+            window.location = '/selectarrival';
+
+            
+            
+            
+        
+            
+          }       
+          }
         
     
           FlightsList() {
@@ -57,7 +64,7 @@ render(){
          
           <div className="row">
             <div className="col-lg-9 mt-2 mb-2">
-              <h4>All Flights</h4>
+              <h4>Departure Flights</h4>
               </div>
               
             </div>
@@ -85,4 +92,4 @@ render(){
       )
   
 }
-}*/
+}

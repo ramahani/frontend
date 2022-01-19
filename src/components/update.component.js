@@ -1,205 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {useState} from "react";
 import axios from 'axios';
 
-
-
-export default class updateflight extends Component {
-    constructor(props){
-        super(props);
-
-        this.onChangeCabin = this.onChangeCabin.bind(this);
-        this.onChangeSeats_available = this.onChangeSeats_available.bind(this);
-        this.onChangeFrom = this.onChangeFrom.bind(this);
-        this.onChangeTo = this.onChangeTo.bind(this);
-        this.onChangeFlightDate = this.onChangeFlightDate.bind(this);
-        this.onSubmit=this.onSubmit.bind(this);
-        this.onChangeArrival_Time = this.onChangeArrival_Time.bind(this);
-        this.onChangeDeparture_Time=this.onChangeDeparture_Time.bind(this);
-        this.onChangeFlight_Number=this.onChangeFlight_Number.bind(this);
-
-
-        this.state={
-          Flight_Number :0,
-            From :"",
-            To : "",
-            Flight_Date :"",
-            Cabin : "",
-            Seats_Available : 0,
-            flights :[]
-
-        }
+const UpdateFlight =({match})=>{
+    const [Flight_Number,setFlight_Number]=useState('')
+    const [Departure_Time,setDeparture_Time]=useState('')
+    const [Arrival_Time,setArrival_Time]=useState('')
+    const [Flight_Date,setFlight_Date]=useState('')
+    const [Seats,setSeats]=useState('')
+    const [To,setTo]=useState('')
+    const [From,setFrom]=useState('')
+   
+   
+    const handleFlightUpdate =()=>{ 
         
+        const data = {Flight_Number: Flight_Number,
+            Departure_Time: Departure_Time, 
+            Arrival_Time:Arrival_Time,
+            Flight_Date:Flight_Date,
+            Seats:Seats,
+            To:To,
+            From:From
+        }    
+        axios.put(`http://localhost:5000/updateflight/${match.params.id}`,data);
+       
     }
 
-  componentDidMount() {
-    axios.get('http://localhost:5000/flights/'+this.props.match.params.id)
-      .then(response => {
-        this.setState({
+    return(
+      <div className="container">
+          <h2 className="mt-5 mb-5"> Update Flight</h2>
+        <form>
+            <div className="form-group">
+                <label> Flight Number: </label>
+                <input  onChange={(event)=>setFlight_Number(event.target.value)} type="text" className="form-control" value={Flight_Number}/>
+            </div>
 
+            <div className="form-group">
+                <label>From: </label>
+                <input onChange={(event)=>setFrom(event.target.value)} type="text" className="form-control" value={From}/>
+            </div>
 
-          From: response.data.From,
-          To: response.data.To,
-          Departure_Time: response.data.Departure_Time,
-          Arrival_Time : response.data.Arrival_Time,
-          Date: response.data.Flight_Date,
-          Cabin: response.data.Cabin,
-          Seats_Available: response.data.Seats_Available,
-          Flight_Number: response.data.Flight_Number
+            <div className="form-group">
+                <label>To: </label>
+                <input onChange={(event)=>setTo(event.target.value)} type="text" className="form-control" value={To}/>
+            </div>
+           
+            <div className="form-group">
+                <label> Departure Time: </label>
+                <input onChange={(event)=>setDeparture_Time(event.target.value)} type="text" className="form-control" value={Departure_Time}/>
+            </div>
 
-        })   
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+            <div className="form-group">
+                <label>Arrival Time: </label>
+                <input onChange={(event)=>setArrival_Time(event.target.value)} type="text" className="form-control" value={Arrival_Time}/>
+            </div>
 
-    
+            <div className="form-group">
+                <label> Flight Date: </label>
+                <input onChange={(event)=>setFlight_Date(event.target.value)} type="text" className="form-control" value={Flight_Date}/>
+            </div>
 
-  }
-  onChangeFrom(e){
-    this.setState({
-        From: e.target.value
-    });
-}
-onChangeTo(e){
-    this.setState({
-        To: e.target.value
-    });
-}
-onChangeFlightDate(e){
-    this.setState({
-        Flight_Date: e.target.value
-    });
-}
-onChangeCabin(e){
-    this.setState({
-        Cabin: e.target.value
-    });
-}
-onChangeSeats_available(e){
-    this.setState({
-        Seats_Available: e.target.value
-    });
-}
-onChangeFlight_Number(e){
-  this.setState({
-      Flight_Number: e.target.value
-  });
-}
-onChangeDeparture_Time(e){
-  this.setState({
-      Departure_Time: e.target.value
-  });
-}
-onChangeArrival_Time(e){
-  this.setState({
-      Arrival_Time: e.target.value
-  });
-}
-
-onSubmit(e){
-    e.preventDefault();
-    const flight ={
-        From: this.state.From,
-        To :this.state.To,
-        Departure_Time : this.state.Departure_Time,
-        Arrival_Time : this.state.Arrival_Time,
-        Flight_Date:this.state.Flight_Date,
-        Cabin :this.state.Cabin,
-        Seats_Available : this.state.Seats_Available,
-        Flight_Number: this.state.Flight_Number
-    }
-    console.log(flight);
-    axios.post('http://localhost:5000/flights/update/' + this.props.match.params.id, flight)
-    .then(res => console.log(res.data));
-    window.location = '/';
-}
-  render() {
-    return (
-        <div>
-        <h3>Update Flight</h3>
-        <form onSubmit={this.onSubmit}>
-        <div className="form-group">
-            <label> Flight Number: </label>
-            <input 
-                type="text" 
-                className="form-control"
-                value={this.state.Flight_Number}
-                onChange={this.onChangeFlight_Number}
-                />
           
-          </div>
-        <div className="form-group"> 
-            <label>From: </label>
-            <input  type="text"
-                required
-                className="form-control"
-                value={this.state.From}
-                onChange={this.onChangeFrom}
-                />
-          </div>
-          <div className="form-group"> 
-            <label>To: </label>
-            <input  type="text"
-                required
-                className="form-control"
-                value={this.state.To}
-                onChange={this.onChangeTo}
-                />
-          </div>
-          <div className="form-group">
-            <label> Departure Time: </label>
-            <input 
-                type="text" 
-                className="form-control"
-                value={this.state.Departure_Time}
-                onChange={this.onChangeDeparture_Time}
-                />
-          </div>
-          <div className="form-group">
-            <label>Arrival Time: </label>
-            <input 
-                type="text" 
-                className="form-control"
-                value={this.state.Arrival_Time}
-                onChange={this.onChangeArrival_Time}
-                />
-          </div>
-          <div className="form-group">
-            <label>Flight Date: </label>
-            <input 
-                type="text" 
-                className="form-control"
-                value={this.state.Flight_Date}
-                onChange={this.onChangeFlightDate}
-                />
-          </div>
-          <div className="form-group">
-            <label>Cabin: </label>
-            <input 
-                type="text" 
-                className="form-control"
-                value={this.state.Cabin}
-                onChange={this.onChangeCabin}
-                />
-          
-          </div>
-
+            <div className="form-group">
+                <label> Seats:  </label>
+                <input onChange={(event)=>setSeats(event.target.value)} type="text" className="form-control" value={Seats}/>
+            </div>
          
-          <div className="form-group">
-            <label>Seats Available: </label>
-            <input 
-                type="text" 
-                className="form-control"
-                value={this.state.Seats_Available}
-                onChange={this.onChangeSeats_available}
-                />
-          </div>
-  
-          <div className="form-group">
-            <input type="submit" value="Update Flight" className="btn btn-primary" />
-          </div>
+            <button  onClick={handleFlightUpdate} className="btn btn-raised btn-primary"> Update</button>
         </form>
       </div>
-    )
-  }
-}
+  ) 
+};
+export default UpdateFlight;
+ 
+  

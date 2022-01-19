@@ -14,11 +14,6 @@ export default class addflight extends Component{
         this.onChangeFlight_Number=this.onChangeFlight_Number.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
 
-
-
-
-
-
         this.state={
             Flight_Number :0,
             From :"",
@@ -91,8 +86,8 @@ export default class addflight extends Component{
 
         }
         console.log(flight);
-        axios.post('http://localhost:5000/flights/add',flight).then(res => console.log(res.data));
-        window.location = '/';
+        axios.post('http://localhost:5000/flights/addflight',flight).then(res => console.log(res.data));
+        //window.location = '/';
     }
     
     

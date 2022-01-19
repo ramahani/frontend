@@ -11,20 +11,40 @@ export default class Navbar extends Component {
         <div className="collpase navbar-collapse">
         <ul className="navbar-nav mr-auto">
           <li className="navbar-item">
-          <Link to="/" className="nav-link">Flights List</Link>
+          <Link to="/flightslist" className="nav-link">Flights List</Link>
           </li>
           <li className="navbar-item">
-          <Link to="/add" className="nav-link">Add Flights</Link>
+          <Link to="/addflight" className="nav-link">Add Flights</Link>
           </li>
           <li className="navbar-item">
           <Link to="/searchflights" className="nav-link">Search</Link>
           </li>
           <li className="navbar-item">
-          <Link to="/deleteFlights" className="nav-link">Delete Flights</Link>  
+          <Link to="/deleteflight/:flightId" className="nav-link">Delete Flights</Link>  
           </li>
+          <li className="navbar-item">
+          <Link to="/login" className="nav-link">Login</Link>  
+          </li>
+          <li className="navbar-item">
+          <Link to="/signup" className="nav-link">Signup</Link>  
+          </li>
+          <li className="navbar-item">
+          <Link to="/addbooking" className="nav-link">Round Trip</Link>  
+          </li>
+          <li className="navbar-item">
+          <Link to="/onetrip" className="nav-link">One Trip</Link>  
+          </li>
+          <li className="navbar-item">
+          <Link to="/edituser" className="nav-link">Edit Profile</Link>  
+          </li>
+          
         </ul>
         </div>
+        <div>{this.props.children}</div> 
+    
       </nav>
+      
+
     );
   }
 }
